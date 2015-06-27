@@ -1,11 +1,11 @@
 {
   "name": "jquery-debouncedwidth",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "homepage": "https://github.com/janrembold/jquery-debouncedwidth",
   "authors": [
     "Jan Rembold <janrembold@googlemail.com>"
   ],
-  "description": "jQuery event for debounced width-only resizing event",
+  "description": "Debounced width-only resizing event for jQuery",
   "main": ["js/jquery.debouncedwidth.js"],
   "keywords": [
     "jQuery",

@@ -1,3 +1,11 @@
+/*!
+ *
+ * jquery-debouncedwidth
+ * https://github.com/janrembold/jquery-debouncedwidth
+ * Copyright (c) 2015 Jan Rembold <janrembold@gmail.com>; License: MIT
+ *
+ * */
+
 (function($) {
     'use strict';
 
