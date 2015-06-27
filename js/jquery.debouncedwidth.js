@@ -52,4 +52,4 @@
 
     };
 
-})(window.jQuery || window.Zepto || window.ender);
+})(window.jQuery);
