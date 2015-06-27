@@ -1,7 +1,7 @@
 {
   "name": "jquery-debouncedwidth",
   "version": "1.0.0",
-  "description": "jQuery event for width-only resizing events including viewport width check ",
+  "description": "jQuery event for debounced width-only resizing event",
   "main": "js/jquery.debouncedwidth.min.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

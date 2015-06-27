@@ -1,0 +1,22 @@
+{
+  "name": "jquery-debouncedwidth",
+  "version": "1.0.0",
+  "homepage": "https://github.com/janrembold/jquery-debouncedwidth",
+  "authors": [
+    "Jan Rembold <janrembold@googlemail.com>"
+  ],
+  "description": "jQuery event for debounced width-only resizing event",
+  "main": ["js/jquery.debouncedwidth.js"],
+  "keywords": [
+    "jQuery",
+    "debounce",
+    "resize",
+    "event",
+    "width"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "node_modules",
+    "bower_components"
+  ]
+}
