@@ -43,11 +43,9 @@
     <script>
         var a=0, b=0;
         $(window).on('debouncedwidth', function(){
-            a++;
-            $('#debounced_counter').text(a);
+            $('#debounced_counter').text(++a);
         }).on('resize', function(){
-            b++;
-            $('#resize_counter').text(b);
+            $('#resize_counter').text(++b);
         });
     </script>
 </body>
