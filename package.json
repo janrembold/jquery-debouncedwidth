@@ -1,6 +1,6 @@
 {
   "name": "jquery-debouncedwidth",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Debounced width-only resizing event for jQuery",
   "main": "js/jquery.debouncedwidth.min.js",
   "scripts": {
