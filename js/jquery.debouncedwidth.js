@@ -1,6 +1,6 @@
 /*!
  *
- * jquery-debouncedwidth - v1.1.0
+ * jquery-debouncedwidth - v1.1.1
  * https://github.com/janrembold/jquery-debouncedwidth
  * Copyright (c) 2015 Jan Rembold <janrembold@gmail.com>; License: MIT
  *
@@ -11,7 +11,7 @@
 
     var timeout;
     var $window = $(window);
-    var lastWidth = $window.width();
+    var lastWidth = 0;
     var elements = [];
 
     // use timeouts to debounce resize event
@@ -25,7 +25,7 @@
                 // set current width to last seen width
                 lastWidth = currentWidth;
 
-                // trigger debouncedwidth event
+                // trigger debouncedwidth event for all elements
                 var index = elements.length;
                 while(index--) {
                     $(elements[index]).trigger('debouncedwidth');
@@ -33,36 +33,34 @@
             }
 
         }, $.event.special.debouncedwidth.threshold);
-    };
 
-    var inArray = function(element){
-        var index = elements.length;
-        while(index--) {
-            if(elements[index] === element) {
-                return index;
-            }
-        }
-
-        return -1;
     };
 
     $.event.special.debouncedwidth = {
         setup: function(){
-            if(inArray(this) === -1) {
-                elements.push(this);
+            // start resize event only once
+            if(elements.length === 0) {
+                lastWidth = $window.width();
+                $(this).on('resize.debouncedwidth', debouncer);
             }
 
-            var $this = $(this);
-            $this.on('resize.debouncedwidth', debouncer);
+            // push new elements to internal array
+            if($.inArray(this, elements) === -1) {
+                elements.push(this);
+            }
         },
 
         teardown: function(){
-            var index = inArray(this);
-            if(index !== -1) {
-                elements = elements.splice(index, 1);
+            // remove element from internal array
+            var index = $.inArray(this, elements);
+            if(index > -1) {
+                elements.splice(index, 1);
             }
 
-            $(this).off('resize.debouncedwidth');
+            // clean up, if nothing is left to listen to
+            if(elements.length === 0) {
+                $(this).off('resize.debouncedwidth');
+            }
         },
 
         threshold: 150
