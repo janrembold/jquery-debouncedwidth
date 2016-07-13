@@ -27,9 +27,11 @@
 
                 // trigger debouncedwidth event for all elements
                 var index = elements.length;
-                while(index--) {
-                    $(elements[index]).trigger('debouncedwidth');
-                }
+				requestAnimationFrame(function () {
+					while(index--) {
+						$(elements[index]).trigger('debouncedwidth');
+					}
+				});
             }
 
         }, $.event.special.debouncedwidth.threshold);
