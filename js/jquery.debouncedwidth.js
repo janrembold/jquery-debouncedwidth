@@ -13,7 +13,24 @@
     var $window = $(window);
     var lastWidth = 0;
     var elements = [];
+    var lastTime = 0;
+    var vendors = ['ms', 'moz', 'webkit', 'o'];
 
+    for(var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
+        window.requestAnimationFrame = window[vendors[x]+'RequestAnimationFrame'];
+    }
+
+
+    var raF = !window.requestAnimationFrame ? function(callback, element) {
+            var currTime = new Date().getTime();
+            var timeToCall = Math.max(0, 16 - (currTime - lastTime));
+            var id = window.setTimeout(function() { callback(currTime + timeToCall); }, 
+              timeToCall);
+            lastTime = currTime + timeToCall;
+            return id;
+            }
+            : window.requestAnimationFrame;
+ 
     // use timeouts to debounce resize event
     var debouncer = function(){
         clearTimeout(timeout);
@@ -27,9 +44,11 @@
 
                 // trigger debouncedwidth event for all elements
                 var index = elements.length;
-                while(index--) {
-                    $(elements[index]).trigger('debouncedwidth');
-                }
+                raF(function () {
+                    while(index--) {
+                        $(elements[index]).trigger('debouncedwidth');
+                    }
+                });
             }
 
         }, $.event.special.debouncedwidth.threshold);
