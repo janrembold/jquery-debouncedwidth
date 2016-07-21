@@ -1,6 +1,6 @@
 /*!
  *
- * jquery-debouncedwidth - v1.1.1
+ * jquery-debouncedwidth
  * https://github.com/janrembold/jquery-debouncedwidth
  * Copyright (c) 2015 Jan Rembold <janrembold@gmail.com>; License: MIT
  *
@@ -15,22 +15,25 @@
     var elements = [];
     var lastTime = 0;
     var vendors = ['ms', 'moz', 'webkit', 'o'];
+    var rAF = window.requestAnimationFrame;
 
-    for(var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
-        window.requestAnimationFrame = window[vendors[x]+'RequestAnimationFrame'];
+    // setup local requestAnimationFrame polyfill
+    for(var x = 0; x < vendors.length && !rAF; ++x) {
+        rAF = window[vendors[x]+'RequestAnimationFrame'];
     }
 
-
-    var raF = !window.requestAnimationFrame ? function(callback, element) {
+    if(!rAF) {
+        rAF = function(callback, element) {
             var currTime = new Date().getTime();
             var timeToCall = Math.max(0, 16 - (currTime - lastTime));
-            var id = window.setTimeout(function() { callback(currTime + timeToCall); }, 
-              timeToCall);
+            var id = window.setTimeout(function() {
+                callback(currTime + timeToCall);
+            }, timeToCall);
             lastTime = currTime + timeToCall;
             return id;
-            }
-            : window.requestAnimationFrame;
- 
+        };
+    }
+
     // use timeouts to debounce resize event
     var debouncer = function(){
         clearTimeout(timeout);
@@ -44,7 +47,9 @@
 
                 // trigger debouncedwidth event for all elements
                 var index = elements.length;
-                raF(function () {
+
+                // use requestAnimationFrame to prevent wrong trigger timings
+                rAF(function () {
                     while(index--) {
                         $(elements[index]).trigger('debouncedwidth');
                     }
