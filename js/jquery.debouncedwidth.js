@@ -19,17 +19,18 @@
     for(var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
         window.requestAnimationFrame = window[vendors[x]+'RequestAnimationFrame'];
     }
- 
-    if (!window.requestAnimationFrame)     //more than inspired by requestAnimationFrame polyfill by Erik Möller. fixes from Paul Irish and Tino Zijdel
-        window.requestAnimationFrame = function(callback, element) {
+
+
+    var raF = !window.requestAnimationFrame ? function(callback, element) {
             var currTime = new Date().getTime();
             var timeToCall = Math.max(0, 16 - (currTime - lastTime));
             var id = window.setTimeout(function() { callback(currTime + timeToCall); }, 
               timeToCall);
             lastTime = currTime + timeToCall;
             return id;
-        };
-
+            }
+            : window.requestAnimationFrame;
+ 
     // use timeouts to debounce resize event
     var debouncer = function(){
         clearTimeout(timeout);
@@ -43,7 +44,7 @@
 
                 // trigger debouncedwidth event for all elements
                 var index = elements.length;
-                requestAnimationFrame(function () {
+                raF(function () {
                     while(index--) {
                         $(elements[index]).trigger('debouncedwidth');
                     }
