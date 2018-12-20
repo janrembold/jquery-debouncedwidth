@@ -51,7 +51,7 @@
                 // use requestAnimationFrame to prevent wrong trigger timings
                 rAF(function () {
                     while(index--) {
-                        $(elements[index]).trigger('debouncedwidth');
+                      elements[index].dispatchEvent(new Event('debouncedwidth'));
                     }
                 });
             }
